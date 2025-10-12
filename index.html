@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jeune Boutique | Digital Dropshipping Media Boutique</title>
+  <meta name="description" content="LP y'urubyiruko ifite Supermarket Chatbot Assistant. Shop smart, shine bright. Gihosha Gisandema." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Puter.js (optional integration layer) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/puter-js/dist/puter.min.js"></script>
+  <script defer src="js/products.js"></script>
+  <script defer src="js/chatbot.js"></script>
+  <script defer src="js/ui.js"></script>
+</head>
+<body class="dark">
+  <!-- Dark mode toggle -->
+  <button id="darkToggle" aria-label="Hindura mode" class="dark-toggle">🌙</button>
+
+  <!-- Hero Section -->
+  <header id="hero" class="section hero">
+    <div class="video-bg">
+      <video autoplay muted loop playsinline poster="assets/fallback.jpg">
+        <source src="assets/video.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <nav class="topbar">
+      <img src="assets/logo.png" alt="Jeune Boutique logo" class="logo" />
+      <ul class="navlinks">
+        <li><a href="#stock">Stock</a></li>
+        <li><a href="#chatbot">Assistant</a></li>
+        <li><a href="#feedback">Testimonials</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="hero-content">
+      <h1>Jeune Boutique</h1>
+      <p class="subtitle">Shop smart, shine bright ✨ | Supermarket Chatbot Assistant ikora nka umukozi w’umutima 💙</p>
+      <audio controls preload="none" class="hero-audio" aria-label="Audio snippet mu gifaransa">
+        <source src="assets/audio.mp3" type="audio/mpeg" />
+      </audio>
+      <a href="#stock" class="cta">Dushorere kugiciro gito 🌸</a>
+    </div>
+  </header>
+
+  <!-- Daily Joke Spinner / Tip -->
+  <section id="daily" class="section daily">
+    <h2>Joke/Tip y’umunsi 🎉</h2>
+    <div id="dailyContent" class="daily-card"></div>
+  </section>
+
+  <!-- Stock Section -->
+  <section id="stock" class="section stock">
+    <h2>Ibicuruzwa biri mu bubiko 🛒</h2>
+    <p class="hint">Shakisha ukoresheje “ndashaka [izina]”, “[category]”, cyangwa “munsi ya [igiciro]”. Urugero: “munsi ya 2000”.</p>
+    <div id="stockTable" class="stock-table"></div>
+  </section>
+
+  <!-- Feedback Section -->
+  <section id="feedback" class="section feedback">
+    <h2>Abakiriya bavuga iki? ⭐</h2>
+    <div class="testimonials">
+      <article class="testimonial" style="animation: fadeUp .5s ease both;">
+        <p>“Byoroshye kugura, kandi Chatbot iransuhuza mu izina. Ndabikunda cane!” 🌸</p>
+        <div class="stars">★★★★★</div>
+      </article>
+      <article class="testimonial" style="animation: fadeUp .7s ease both;">
+        <p>“Snacks na beauty packs zifite vibe ya jeune, igiciro kiraryoshye.” ✨</p>
+        <div class="stars">★★★★★</div>
+      </article>
+      <article class="testimonial" style="animation: fadeUp .9s ease both;">
+        <p>“Checkout iri swift, invoice isobanutse. 10/10.” 💙</p>
+        <div class="stars">★★★★★</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Chatbot Section -->
+  <section id="chatbot" class="section chatbot">
+    <h2>Umukozi w’umutima: Chatbot Assistant 💬</h2>
+    <div class="chatbox">
+      <div id="chatLog" class="chat-log" aria-live="polite"></div>
+      <div class="chat-controls">
+        <input id="chatInput" type="text" placeholder="Andika: 'amakuru', 'ndashaka amata', 'Ibinyobwa', 'munsi ya 2000', 'checkout'..." />
+        <button id="sendBtn">Ohereza</button>
+      </div>
+      <div class="tone-switch">
+        <label>Imvugiro:</label>
+        <select id="toneSelect">
+          <option value="warm">Warm</option>
+          <option value="neutral">Neutral</option>
+          <option value="professional">Professional</option>
+        </select>
+      </div>
+      <div class="profile">
+        <input id="profileName" type="text" placeholder="Izina ryawe (optional)" />
+        <button id="saveProfile">Bika izina</button>
+      </div>
+      <div class="cart-summary">
+        <h3>Igare ryawe</h3>
+        <div id="cartItems"></div>
+        <div id="cartTotal"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Google Maps Embed -->
+  <section id="map" class="section map">
+    <h2>Ahantu: Gihosha Gisandema 🗺️</h2>
+    <div class="map-embed">
+      <iframe
+        title="Gihosha Gisandema Location"
+        width="100%" height="320" style="border:0"
+        loading="lazy" allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=-3.4590,29.378&z=15&output=embed">
+      </iframe>
+    </div>
+  </section>
+
+  <!-- Contact Form -->
+  <section id="contact" class="section contact">
+    <h2>Twandikire 📧</h2>
+    <form action="https://formsubmit.io/send/ornoirbruce5@gmail.com" method="POST" class="contact-form">
+      <input type="text" name="name" placeholder="Izina" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <textarea name="message" placeholder="Ubutumwa" rows="5" required></textarea>
+      <input type="hidden" name="_redirect" value="https://example.com/thanks" />
+      <button type="submit">Ohereza</button>
+    </form>
+  </section>
+
+  <!-- WhatsApp Support -->
+  <section id="support" class="section support">
+    <h2>WhatsApp Support</h2>
+    <p><a href="https://wa.me/25771633859?text=Mwaramutse%2C%20ndakeneye%20ubufasha%20ku%20Jeune%20Boutique" target="_blank" rel="noopener">Uduhamagare kuri WhatsApp</a></p>
+    <img src="assets/qr-whatsapp.png" alt="QR code ya WhatsApp" class="qr" />
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p>📞 +25771633859 | 📧 ornoirbruce5@gmail.com | 📍 Gihosha</p>
+      <div class="socials">
+        <a href="#" aria-label="WhatsApp"><img src="assets/icons/whatsapp.svg" alt="WhatsApp" /></a>
+        <a href="#" aria-label="Instagram"><img src="assets/icons/instagram.svg" alt="Instagram" /></a>
+        <a href="#" aria-label="Facebook"><img src="assets/icons/facebook.svg" alt="Facebook" /></a>
+      </div>
+      <p class="small">© 2025 Jeune Boutique — Digital Dropshipping Media</p>
+    </div>
+  </footer>
+</body>
+</html>
