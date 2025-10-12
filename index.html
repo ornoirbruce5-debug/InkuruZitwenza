@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Supermarket Assistant — LP</title>
+  <style>
+    :root{
+      --bg:#0b1220; --panel:#0f172a; --card:#111827; --text:#e5e7eb; --muted:#94a3b8;
+      --accent:#22c55e; --accent2:#2563eb; --danger:#ef4444; --line:#1f2937; --bubble:#16233b;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; background:var(--bg); color:var(--text); font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif}
+    a{color:#8ab4ff; text-decoration:none}
+    header{background:linear-gradient(120deg,#0b1220 0%,#0e1a33 50%,#0b1220 100%); border-bottom:1px solid var(--line)}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 18px}
+    .brand{display:flex; align-items:center; gap:10px}
+    .brand .logo{width:36px; height:36px; border-radius:10px; background:#0d1c36; border:1px solid #183055; display:grid; place-items:center; color:#8ab4ff; font-weight:700}
+    .brand h1{margin:0; font-size:18px}
+    .cta{display:flex; gap:8px}
+    .btn{background:var(--accent); color:#05210f; border:none; border-radius:10px; padding:10px 14px; font-weight:700; cursor:pointer}
+    .btn.secondary{background:#0f274c; color:#cfe3ff; border:1px solid #1b3c6d}
+    .btn.ghost{background:transparent; color:#cfe3ff; border:1px solid #244464}
+    .btn.small{padding:6px 10px; border-radius:8px; font-weight:600}
+    .hero{display:grid; grid-template-columns:1.1fr 0.9fr; gap:24px; padding:28px 18px}
+    .hero .copy{padding:10px}
+    .hero h2{font-size:32px; margin:0 0 10px 0}
+    .sub{color:var(--muted); margin:6px 0 16px 0}
+    .highlights{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+    .highlight{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px}
+    .highlight strong{display:block; margin-bottom:6px}
+    .panel{background:var(--panel); border-top:1px solid var(--line)}
+    .content{display:grid; grid-template-columns:2fr 1fr; gap:18px; padding:18px}
+    .card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px}
+    .card h3{margin:0 0 10px 0; font-size:16px}
+    .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
+    .product{background:#0c1528; border:1px solid #18243c; border-radius:12px; padding:10px; display:flex; flex-direction:column; gap:8px}
+    .product .meta{display:flex; justify-content:space-between; align-items:center}
+    .tag{background:#10203a; color:#8ab4ff; border:1px solid #18365f; padding:2px 6px; border-radius:999px; font-size:12px}
+    .price{font-weight:700}
+    .tools{display:grid; grid-template-columns:1fr auto; gap:8px}
+    input, select{width:100%; background:#0c1a31; color:var(--text); border:1px solid #1e3355; border-radius:10px; padding:10px}
+    .pill{display:flex; gap:8px; flex-wrap:wrap}
+    .pill button{background:#0c1c35; color:#8ab4ff; border:1px solid #1b355b; border-radius:999px; padding:6px 10px; cursor:pointer; font-size:12px}
+    .cart{display:flex; flex-direction:column; gap:8px}
+    .line{display:flex; justify-content:space-between; align-items:center; border-bottom:1px dashed #263a5c; padding:6px 0}
+    .line:last-child{border-bottom:0}
+    .totals{display:flex; justify-content:space-between; align-items:center; padding-top:6px; border-top:1px solid #1c2a45}
+    .promo{margin-top:8px; color:#86efac}
+    .chatdock{position:fixed; right:16px; bottom:16px; z-index:50}
+    .chatbtn{background:var(--accent2); color:#061227; border:none; border-radius:999px; padding:12px 16px; font-weight:800; box-shadow:0 10px 18px rgba(0,0,0,.35); cursor:pointer}
+    .chatwin{position:fixed; right:16px; bottom:80px; width:360px; max-height:65vh; background:var(--panel); border:1px solid var(--line); border-radius:14px; overflow:hidden; display:none; z-index:60}
+    .chatwin header{padding:10px 12px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center}
+    .chatwin .messages{padding:12px; height:48vh; overflow:auto; display:flex; flex-direction:column; gap:10px}
+    .bubble{max-width:85%; background:var(--bubble); padding:10px 12px; border-radius:12px; line-height:1.4}
+    .bubble.bot{align-self:flex-start}
+    .bubble.user{align-self:flex-end; background:#113061; border:1px solid #214a8f}
+    .chatwin .composer{display:grid; grid-template-columns:1fr auto; gap:8px; padding:10px; border-top:1px solid var(--line)}
+    .tiny{font-size:12px; color:var(--muted)}
+    footer{padding:12px 18px; border-top:1px solid var(--line)}
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr}
+      .content{grid-template-columns:1fr}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .chatwin{width:92vw}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <div class="logo">🛒</div>
+        <h1>Supermarket Assistant <span class="tiny">— Umukozi w’umutima</span></h1>
+      </div>
+      <div class="cta">
+        <button class="btn secondary" id="seeBundlesBtn">Reba bundles</button>
+        <button class="btn" id="startChatBtn">Tangira kuganira</button>
+      </div>
+    </div>
+    <section class="hero">
+      <div class="copy">
+        <h2>Supermarket yawe mu biganiro bya buri munsi</h2>
+        <p class="sub">Shakisha, gereranya, ongerea mu igare, kandi saba invoice — byose mu kiganiro kimwe gifata umutima w’umukiriya.</p>
+        <div class="highlights">
+          <div class="highlight"><strong>Memory y’ukuri</strong><span>Chatbot ibuka izina n’ibyo wigeze gushaka.</span></div>
+          <div class="highlight"><strong>Catalogue ikomeye</strong><span>Ibinyobwa, Isuku, Ibiribwa… byose mu nshamake.</span></div>
+          <div class="highlight"><strong>Promotions z’ubwitonzi</strong><span>Discounts zituruka ku biganiro byawe.</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Gushakisha vuba</h3>
+        <div class="tools">
+          <input id="searchInput" type="text" placeholder="Shakisha: ‘amata’, ‘munsi ya 2000’, ‘Ibinyobwa’…" />
+          <button class="btn ghost" id="searchBtn">Shakisha</button>
+        </div>
+        <div class="pill" id="quickCats"></div>
+        <div class="pill" id="quickPrompts"></div>
+      </div>
+    </section>
+  </header>
+
+  <main class="panel">
+    <section class="content">
+      <div class="card">
+        <h3>Ibicuruzwa byatoranyijwe</h3>
+        <div class="grid" id="productGrid"></div>
+      </div>
+      <aside class="card">
+        <h3>Igare ryawe</h3>
+        <div class="cart" id="cartList"></div>
+        <div class="totals">
+          <span>Igiteranyo:</span>
+          <strong id="cartTotal">0 Fbu</strong>
+        </div>
+        <div class="promo" id="promoBanner"></div>
+        <div class="tools" style="margin-top:10px">
+          <input id="nameInput" type="text" placeholder="Izina ryawe (urugero: Eric)" />
+          <button class="btn small" id="saveProfileBtn">Bika izina</button>
+        </div>
+        <button class="btn" id="checkoutBtn" style="margin-top:8px">Saba invoice</button>
+        <div class="tiny" id="profileStatus"></div>
+      </aside>
+    </section>
+  </main>
+
+  <div class="chatdock">
+    <button class="chatbtn" id="openChatBtn">💬 Gira ikiganiro</button>
+  </div>
+  <div class="chatwin" id="chatWin">
+    <header>
+      <strong>Assistant w’isoko</strong>
+      <button class="btn small ghost" id="closeChatBtn">Funga</button>
+    </header>
+    <div class="messages" id="messages"></div>
+    <div class="composer">
+      <input id="userInput" type="text" placeholder="Andika: ‘amakuru’, ‘ndashaka amata’, ‘munsi ya 2000’…" />
+      <button class="btn" id="sendBtn">Ohereza</button>
+    </div>
+  </div>
+
+  <footer>
+    <small class="tiny">Made with care — Memory, personalization, sentiment, daily hooks, catalogue, cart, bundles & promotions.</small>
+  </footer>
+
+  <!-- Supermarket Chatbot Module (logic) -->
+  <script>
+  /* Script.js embedded */
+  const store = {
+    get(key, def){ try{ return JSON.parse(localStorage.getItem(key)) ?? def; }catch{ return def; } },
+    set(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+  };
+  const fmtMoney = v => `${Number(v).toLocaleString()} Fbu`;
+  const sanitize = s => String(s).replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+  const Catalogue = [
+    { id: 1, name: "Amata Inyange 1L", category: "Ibinyobwa", price: 1800, stock: 50, desc: "Amata y’umwimerere 1L." },
+    { id: 2, name: "Isabune OMO 500g", category: "Isuku", price: 2500, stock: 30, desc: "Isabune yo kumesa neza." },
+    { id: 3, name: "Umuceri Pakistan 5kg", category: "Ibiribwa", price: 12000, stock: 20, desc: "Umuceri w’umwimerere wo mu Pakistan." },
+    { id: 4, name: "Juice Azam 1L", category: "Ibinyobwa", price: 2200, stock: 40, desc: "Juice y’imbuto ya Azam." },
+    { id: 5, name: "Isukari 1kg", category: "Ibiribwa", price: 1700, stock: 80, desc: "Isukari y’isuku 1kg." },
+    { id: 6, name: "Colgate 100ml", category: "Isuku", price: 3500, stock: 25, desc: "Pasta yo gusukura amenyo." },
+    { id: 7, name: "Amavuta ya Supa 1L", category: "Ibiribwa", price: 6000, stock: 15, desc: "Amavuta yo guteka 1L." },
+    { id: 8, name: "Pepsi 500ml", category: "Ibinyobwa", price: 1000, stock: 100, desc: "Soda ya Pepsi 500ml." },
+    { id: 9, name: "Sponge yo koza amasahani", category: "Isuku", price: 700, stock: 60, desc: "Sponge ikomeye yo koza." },
+    { id: 10, name: "Umuceri Long Grain 25kg", category: "Ibiribwa", price: 48000, stock: 8, desc: "Umuceri muremure 25kg." }
+  ];
+  const Categories = [...new Set(Catalogue.map(p => p.category))];
+  const Tips = [
+    "Consistency niyo igira brand ikomeye.",
+    "Umukiriya anezezwa rimwe, agaruka kenshi.",
+    "Kuganira neza ni marketing y’ukuri.",
+    "Gushyira umutima mu biganiro byubaka ubucuruzi."
+  ];
+  const Jokes = [
+    "Urashaka umuceri? Twawushyize ku murongo… ni long grain rwose!",
+    "Isabune yacu ifuha kiriya kiriho kiri… imyenda yanduye 😉",
+    "Pepsi 500ml irimo akajipo k’amapfundo—ntikaguhere mu nzira!"
+  ];
+  const Bundles = [
+    { name: "Icyumweru cy’ifunguro", items: [5,7,3], discount: 0.05 },
+    { name: "Isuku Starter", items: [2,6,9], discount: 0.07 },
+    { name: "Ibinyobwa Mini", items: [4,8,1], discount: 0.04 }
+  ];
+  let Profile = store.get("profile", { name:null, tone:"warm", preferences:[], history:[] });
+  let Cart = store.get("cart", []);
+  let ConvoCount = store.get("convoCount", 0);
+  let LastSeen = store.get("lastSeen", null);
+  let Promotions = store.get("promotions", { visits:0, awarded:false });
+
+  function detectSentiment(msg){
+    const m = msg.toLowerCase();
+    const negatives = ["sinzi","mpagararira","ntabwo","bibi","nshavuye","biragoye","ntabona"];
+    const positives = ["byiza","ndanezerewe","nishimiye","ni sawa","nshimiye","birakunze"];
+    if(negatives.some(w => m.includes(w))) return "neg";
+    if(positives.some(w => m.includes(w))) return "pos";
+    return "neu";
+  }
+  function sentimentReply(sent){
+    if(sent==="neg") return "Ndumva ushobora kuba ufite impungenge 💙. Buri ntambwe nto ni intsinzi, kandi ndi hano kugufasha.";
+    if(sent==="pos") return "Biranejeje kubyumva 🎉. Dukomeze kubaka neza: consistency niyo igira brand ikomeye.";
+    return null;
+  }
+  function searchProducts(query){
+    if(!query) return [];
+    const q = query.toLowerCase();
+    const budgetMatch = q.match(/munsi ya\s*(\d+)|<=?\s*(\d+)/);
+    let byBudget = null;
+    if(budgetMatch){ byBudget = parseInt(budgetMatch[1] || budgetMatch[2], 10); }
+    return Catalogue.filter(p => {
+      const nameHit = p.name.toLowerCase().includes(q);
+      const catHit = p.category.toLowerCase().includes(q);
+      const priceHit = byBudget!=null ? p.price <= byBudget : false;
+      const numberQuery = q.match(/\d{3,}/) ? p.price.toString().includes(q.replace(/\D/g,"")) : false;
+      return nameHit || catHit || priceHit || numberQuery;
+    });
+  }
+  function listByCategory(cat){ return Catalogue.filter(p => p.category===cat); }
+  function addToCart(id){
+    const item = Catalogue.find(p => p.id===id);
+    if(!item || item.stock<=0) return { ok:false, msg:"Iki kintu ntikiri mu bubiko." };
+    const line = Cart.find(l => l.id===id);
+    if(line){ if(line.qty+1>item.stock) return { ok:false, msg:"Stock irashize kuri iki kintu." }; line.qty++; }
+    else { Cart.push({ id, name:item.name, price:item.price, qty:1 }); }
+    store.set("cart", Cart);
+    return { ok:true, msg:`Nongereye igare: ${item.name} — ${fmtMoney(item.price)}.` };
+  }
+  function removeFromCart(id){ Cart = Cart.filter(l => l.id!==id); store.set("cart", Cart); }
+  function cartSum(){ return Cart.reduce((s,l)=> s + l.price*l.qty, 0); }
+  function applyGamifiedPromo(){
+    const amount = cartSum();
+    const eligible = ConvoCount >= 5 && amount >= 5000 && !Promotions.awarded;
+    if(!eligible) return null;
+    const discount = Math.min(0.05, amount>=50000 ? 0.07 : 0.05);
+    return { percent: discount, label: `Surprise 🎁: Kubera ko twaganiriye inshuro ${ConvoCount}, urahawe ${Math.round(discount*100)}% discount!` };
+  }
+  function markPromoAwarded(){ Promotions.awarded = true; store.set("promotions", Promotions); }
+  function bundlesText(){
+    return Bundles.map(b => {
+      const items = b.items.map(id => Catalogue.find(p => p.id===id)?.name).join(", ");
+      const sum = b.items.reduce((s,id)=> s + (Catalogue.find(p => p.id===id)?.price||0), 0);
+      const discounted = Math.round(sum*(1-b.discount));
+      return `• ${b.name}: ${items} — ${fmtMoney(sum)} → ${fmtMoney(discounted)} (−${Math.round(b.discount*100)}%)`;
+    }).join("\n");
+  }
+  function applyBundle(name){
+    const b = Bundles.find(x => x.name.toLowerCase()===name.toLowerCase());
+    if(!b) return { ok:false, msg:"Sinsanze iyo bundle. Gerageza: ‘Icyumweru cy’ifunguro’, ‘Isuku Starter’, ‘Ibinyobwa Mini’." };
+    b.items.forEach(id => addToCart(id));
+    return { ok:true, msg:`Nashyize igare ${b.name}. Ubu igiteranyo ni ${fmtMoney(cartSum())}.` };
+  }
+  function dailyGreeting(){
+    const tip = pick(Tips);
+    const j = Math.random()<0.35 ? "\n\n" + pick(Jokes) : "";
+    const nameLine = Profile.name ? `Muraho ${Profile.name} 🌸` : "Muraho mukundwa 🌸";
+    return `${nameLine}. Dore tip y’umunsi: ${tip}.${j}`;
+  }
+  function dailyFollowUp(){
+    const now = Date.now();
+    const last = LastSeen || now;
+    const days = Math.floor((now - last)/(1000*60*60*24));
+    LastSeen = now; store.set("lastSeen", LastSeen);
+    Promotions.visits = (Promotions.visits||0)+1; store.set("promotions", Promotions);
+    if(days>=3){ return "Twari twakumbuye ibiganiro byawe 🌺. Waba ushaka kureba ibishya byongewe muri boutique cyangwa bundles?"; }
+    return null;
+  }
+  function renderResults(items){
+    if(!items.length) return "Nta bicuruzwa bihuye n'ibyo ushaka nabonye. Gerageza ‘Ibinyobwa’, ‘Isuku’, ‘Ibiribwa’, cyangwa budget: ‘munsi ya 2000’.";
+    const lines = items.map(p => `• (${p.id}) ${p.name} — ${fmtMoney(p.price)} [${p.category}]`).join("\n");
+    return `Nabonye ibi bicuruzwa:\n${lines}\nAndika: ‘fata [id]’ kugira ngo nyongeremo igare.`;
+  }
+  const Chatbot = (() => {
+    let onBot = (text)=>console.log("[BOT]", text);
+    let onUser = (text)=>console.log("[USER]", text);
+    let onCartUpdate = ()=>{};
+    let onPromoUpdate = (promo)=>{};
+    let onCatalogUpdate = (list)=>{};
+    function setCallbacks(cbs){
+      onBot = cbs.onBot || onBot;
+      onUser = cbs.onUser || onUser;
+      onCartUpdate = cbs.onCartUpdate || onCartUpdate;
+      onPromoUpdate = cbs.onPromoUpdate || onPromoUpdate;
+      onCatalogUpdate = cbs.onCatalogUpdate || onCatalogUpdate;
+    }
+    function init(){
+      onBot(dailyGreeting());
+      const follow = dailyFollowUp();
+      if(follow) onBot(follow);
+      onCatalogUpdate(Catalogue.slice());
+      onCartUpdate({ cart: Cart.slice(), total: fmtMoney(cartSum()) });
+      onPromoUpdate(applyGamifiedPromo());
+    }
+    function setProfile({ name, tone }){
+      if(typeof name==="string") Profile.name = name.trim() || Profile.name;
+      if(typeof tone==="string") Profile.tone = tone;
+      store.set("profile", Profile);
+      onBot(Profile.name
+        ? `Byiza ${Profile.name} 🙌. Nzakuvugisha mu izina ryawe, kandi nzibuka ibyo ukunda.`
+        : "Byakunze 🙌. Niba wifuza ko ngusuhuza mu izina, andika izina ryawe.");
+    }
+    function getState(){
+      return { profile: { ...Profile }, cart: Cart.slice(), total: cartSum(), categories: Categories.slice(), promotions: { ...Promotions } };
+    }
+    function handleSearchUI(query){
+      const results = searchProducts(query);
+      onCatalogUpdate(results.length?results:[]);
+      if(!results.length){ onBot("Nta byavuyemo kuri iyo nshakisha. Gerageza izina ryoroshye cyangwa category."); }
+    }
+    function addItem(id){
+      const res = addToCart(id);
+      onBot(res.msg);
+      onCartUpdate({ cart: Cart.slice(), total: fmtMoney(cartSum()) });
+      onPromoUpdate(applyGamifiedPromo());
+    }
+    function removeItem(id){
+      removeFromCart(id);
+      onCartUpdate({ cart: Cart.slice(), total: fmtMoney(cartSum()) });
+      onPromoUpdate(applyGamifiedPromo());
+    }
+    function checkout(){
+      const sum = cartSum();
+      if(sum<=0){ onBot("Igare ritarimo ibicuruzwa. Ongera ‘fata [id]’ hanyuma usabe invoice."); return; }
+      let discountPct = 0;
+      if(!Promotions.awarded && ConvoCount>=5){
+        discountPct = sum>=50000 ? 0.07 : 0.05; markPromoAwarded();
+      }
+      const discounted = Math.round(sum*(1-discountPct));
+      const lines = Cart.map(l => `• ${l.name} × ${l.qty} — ${fmtMoney(l.price*l.qty)}`).join("\n");
+      onBot(`Invoice yawe 🧾:\n${lines}\nIgiteranyo: ${fmtMoney(sum)}\nDiscount: ${Math.round(discountPct*100)}%\nUkwishyura: ${fmtMoney(discounted)}.\nUshaka ko nguha uburyo bwo kwishyura cyangwa ko nibika iyi invoice mu mateka yawe?`);
+    }
+    function respond(message){
+      const m = (message||"").trim(); if(!m) return;
+      onUser(m); ConvoCount++; store.set("convoCount", ConvoCount);
+      const lower = m.toLowerCase();
+      if(/amakuru|mwaramutse|mwiriwe|bite/.test(lower)){ onBot(`Mwaramutse neza ☀️! Dore tip y’umunsi: ${pick(Tips)}.`); return; }
+      if(lower.startsWith("ndashaka")){ const q = m.replace(/ndashaka/i,"").trim(); onBot(renderResults(searchProducts(q))); return; }
+      if(Categories.map(c => c.toLowerCase()).some(c => lower.includes(c))){ const cat = Categories.find(c => lower.includes(c.toLowerCase())); onBot(renderResults(listByCategory(cat))); return; }
+      if(/^fata bundle/i.test(lower)){ const bundleName = m.replace(/^fata bundle/i,"").trim(); const res = applyBundle(bundleName); onBot(res.msg); onCartUpdate({ cart: Cart.slice(), total: fmtMoney(cartSum()) }); onPromoUpdate(applyGamifiedPromo()); return; }
+      const takeMatch = lower.match(/^fata\s+(\d+)/); if(takeMatch){ addItem(parseInt(takeMatch[1],10)); return; }
+      if(/bundle|pack|ipaki/.test(lower)){ onBot(`Dore bundles z’agaciro:\n${bundlesText()}\nUshaka ko nyongeramo igare? Andika: ‘fata bundle [izina]’.`); return; }
+      const budgetMatch = lower.match(/munsi ya\s*(\d+)/); if(budgetMatch){ const budget = parseInt(budgetMatch[1],10); onBot(renderResults(Catalogue.filter(p => p.price <= budget))); return; }
+      if(/fasha|ubufasha|uburyo/.test(lower)){ onBot("Ushobora kwandika: ‘ndashaka amata’, ‘Ibinyobwa’, ‘munsi ya 2000’, ‘fata 3’, cyangwa ‘fata bundle Isuku Starter’."); return; }
+      const s = detectSentiment(m); const sr = sentimentReply(s); if(sr){ onBot(sr); return; }
+      onBot("Ndakumva neza. Waba ushaka kureba catalogue y’ibicuruzwa byacu cyangwa bundles ziriho?");
+    }
+    return { setCallbacks, init, setProfile, getState, respond, handleSearchUI, addItem, removeItem, checkout, data:{ Catalogue, Categories, Bundles } };
+  })();
+  window.SupermarketChatbot = Chatbot;
+  </script>
+
+  <!-- LP wiring: callbacks + UI -->
+  <script>
+    // UI references
+    const productGrid = document.getElementById("productGrid");
+    const cartList = document.getElementById("cartList");
+    const cartTotal = document.getElementById("cartTotal");
+    const promoBanner = document.getElementById("promoBanner");
+    const quickCats = document.getElementById("quickCats");
+    const quickPrompts = document.getElementById("quickPrompts");
+    const searchInput = document.getElementById("searchInput");
+    const searchBtn = document.getElementById("searchBtn");
+    const messagesEl = document.getElementById("messages");
+    const userInput = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const openChatBtn = document.getElementById("openChatBtn");
+    const closeChatBtn = document.getElementById("closeChatBtn");
+    const chatWin = document.getElementById("chatWin");
+    const saveProfileBtn = document.getElementById("saveProfileBtn");
+    const nameInput = document.getElementById("nameInput");
+    const profileStatus = document.getElementById("profileStatus");
+    const checkoutBtn = document.getElementById("checkoutBtn");
+    const seeBundlesBtn = document.getElementById("seeBundlesBtn");
+    const startChatBtn = document.getElementById("startChatBtn");
+
+    // Render helpers
+    function addBotMessage(text){
+      const b = document.createElement("div"); b.className="bubble bot"; b.innerHTML = sanitize(text);
+      messagesEl.appendChild(b); messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+    function addUserMessage(text){
+      const b = document.createElement("div"); b.className="bubble user"; b.innerHTML = sanitize(text);
+      messagesEl.appendChild(b); messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+    function renderCatalog(list){
+      productGrid.innerHTML = "";
+      list.forEach(p => {
+        const card = document.createElement("div"); card.className="product";
+        card.innerHTML = `
+          <div class="meta">
+            <strong>${sanitize(p.name)}</strong>
+            <span class="tag">${sanitize(p.category)}</span>
+          </div>
+          <div class="tiny">${sanitize(p.desc||"")}</div>
+          <div class="meta">
+            <span class="price">${fmtMoney(p.price)}</span>
+            <button class="btn small">Fata</button>
+          </div>
+        `;
+        card.querySelector("button").onclick = ()=> SupermarketChatbot.addItem(p.id);
+        productGrid.appendChild(card);
+      });
+      // Quick categories
+      quickCats.innerHTML = "";
+      SupermarketChatbot.data.Categories.forEach(c => {
+        const btn = document.createElement("button"); btn.textContent = c;
+        btn.onclick = ()=> renderCatalog(SupermarketChatbot.data.Catalogue.filter(p => p.category===c));
+        quickCats.appendChild(btn);
+      });
+      // Quick prompts
+      quickPrompts.innerHTML = "";
+      ["amakuru","ndashaka amata","Ibinyobwa","munsi ya 2000","bundle","fata 1","fata bundle Isuku Starter"].forEach(p => {
+        const btn = document.createElement("button"); btn.textContent = p;
+        btn.onclick = ()=> { userInput.value = p; userInput.focus(); };
+        quickPrompts.appendChild(btn);
+      });
+    }
+    function updateCartUI(cart, total){
+      cartList.innerHTML = "";
+      cart.forEach(l => {
+        const row = document.createElement("div"); row.className="line";
+        row.innerHTML = `
+          <span>${sanitize(l.name)} × ${l.qty}</span>
+          <span>${fmtMoney(l.price*l.qty)}</span>
+          <button class="btn small ghost">Siba</button>
+        `;
+        row.querySelector("button").onclick = ()=> SupermarketChatbot.removeItem(l.id);
+        cartList.appendChild(row);
+      });
+      cartTotal.textContent = total;
+    }
+    function updatePromoBanner(promo){
+      if(promo){ promoBanner.textContent = promo.label; }
+      else { promoBanner.textContent = ""; }
+    }
+
+    // Wire callbacks
+    SupermarketChatbot.setCallbacks({
+      onBot: addBotMessage,
+      onUser: addUserMessage,
+      onCartUpdate: ({cart, total}) => updateCartUI(cart, total),
+      onPromoUpdate: promo => updatePromoBanner(promo),
+      onCatalogUpdate: list => renderCatalog(list)
+    });
+    SupermarketChatbot.init();
+
+    // Events
+    openChatBtn.onclick = ()=> { chatWin.style.display="block"; };
+    closeChatBtn.onclick = ()=> { chatWin.style.display="none"; };
+    startChatBtn.onclick = ()=> { chatWin.style.display="block"; addBotMessage("Tangiye ikiganiro. Andika ibyo wifuza 👇"); };
+    sendBtn.onclick = ()=> { const v = userInput.value.trim(); if(!v) return; SupermarketChatbot.respond(v); userInput.value=""; userInput.focus(); };
+    userInput.addEventListener("keydown", e => { if(e.key==="Enter") sendBtn.click(); });
+    searchBtn.onclick = ()=> {
+      const q = searchInput.value.trim();
+      if(!q) { renderCatalog(SupermarketChatbot.data.Catalogue); return; }
+      SupermarketChatbot.handleSearchUI(q);
+    };
+    saveProfileBtn.onclick = ()=>{
+      const name = nameInput.value.trim();
+      SupermarketChatbot.setProfile({ name, tone:"warm" });
+      profileStatus.textContent = name ? `Byakunze ✅ — Izina: ${name}` : "Byakunze ✅";
+    };
+    checkoutBtn.onclick = ()=> SupermarketChatbot.checkout();
+    seeBundlesBtn.onclick = ()=> addBotMessage(`Dore bundles z’agaciro:\n${(function(){const t=SupermarketChatbot.data;return t.Bundles.map(b=>{const items=b.items.map(id=>t.Catalogue.find(p=>p.id===id)?.name).join(", ");const sum=b.items.reduce((s,id)=>s+(t.Catalogue.find(p=>p.id===id)?.price||0),0);const discounted=Math.round(sum*(1- b.discount));return `• ${b.name}: ${items} — ${fmtMoney(sum)} → ${fmtMoney(discounted)} (−${Math.round(b.discount*100)}%)`;}).join("\n");})()}`);
+
+    // Initial focus
+    searchInput.focus();
+  </script>
+</body>
+</html>
