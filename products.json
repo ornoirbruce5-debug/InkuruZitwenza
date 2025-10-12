@@ -1,0 +1,21 @@
+// Youthful catalogue: scalable to 100+ items
+// id, name, category, price (Fbu), stock, desc, image
+window.PRODUCTS = [
+  { id: 1, name: "Bubble Tea Kit", category: "Snacks", price: 4500, stock: 20, desc: "Kit yo kwikorera bubble tea mu rugo 🌸", image: "assets/bubbletea.jpg" },
+  { id: 2, name: "Lip Gloss Shiny Pink", category: "Beauty", price: 3500, stock: 30, desc: "Lip gloss irabagirana, ikurura amaso 💄", image: "assets/lipgloss.jpg" },
+  { id: 3, name: "Mini Backpack Pastel", category: "Lifestyle", price: 12000, stock: 15, desc: "Akabando gato ka pastel, trendy 🎒", image: "assets/backpack.jpg" },
+  { id: 4, name: "Highlighter Pastel Pack", category: "Study", price: 2500, stock: 40, desc: "Set y’amakaramu pastel 🖊️", image: "assets/highlighter.jpg" },
+  { id: 5, name: "Body Mist Sweet Candy", category: "Beauty", price: 5000, stock: 25, desc: "Parfum yoroheje, youthful vibes ✨", image: "assets/bodymist.jpg" },
+  { id: 6, name: "Energy Drink Can", category: "Snacks", price: 2000, stock: 50, desc: "Inyota irashira, energy iriyongera ⚡", image: "assets/energy.jpg" },
+  { id: 7, name: "Phone Case Glitter", category: "Lifestyle", price: 3500, stock: 35, desc: "Case irabagirana, selfie-friendly 📱", image: "assets/phonecase.jpg" },
+  { id: 8, name: "Water Bottle Gradient", category: "Lifestyle", price: 6000, stock: 25, desc: "Flasque y’amazi gradient, aesthetic 💧", image: "assets/bottle.jpg" },
+  { id: 9, name: "Cute Notebook Set", category: "Study", price: 4000, stock: 40, desc: "Set ya notes cute, study vibes 📚", image: "assets/notebook.jpg" },
+];
+
+// Bundles for youth
+window.BUNDLES = {
+  "Self-care Starter": [2, 5],
+  "Girls’ Night Pack": [1, 6],
+  "Study Snacks": [4, 6, 9],
+  "Glow Bundle": [1, 8, 7],
+};
