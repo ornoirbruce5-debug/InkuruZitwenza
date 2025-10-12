@@ -1,0 +1,30 @@
+[
+  {
+    "id": "md-pack-01",
+    "name": "Media Pack — Starter",
+    "image": "assets/products/media-pack-starter.jpg",
+    "description": "Bundle ya videos & thumbnails bya dropshipping. Ikozwe neza ku ruhande rwa social media.",
+    "price": "BIF 45,000"
+  },
+  {
+    "id": "md-pack-02",
+    "name": "Media Pack — Pro",
+    "image": "assets/products/media-pack-pro.jpg",
+    "description": "Templates za ads, thumbnails, 10 reels, 5 short videos. Ibyihuse ku kugurisha.",
+    "price": "BIF 85,000"
+  },
+  {
+    "id": "md-voice-fr",
+    "name": "Voice-over mu gifaransa",
+    "image": "assets/products/voice-fr.jpg",
+    "description": "Audio voice-over professionnelle mu gifaransa ku masoko ya diaspora.",
+    "price": "BIF 30,000"
+  },
+  {
+    "id": "md-design-ig",
+    "name": "Instagram Design Kit",
+    "image": "assets/products/ig-kit.jpg",
+    "description": "Carousel, stories, highlights — byose biteguye kujya kuri page yawe.",
+    "price": "BIF 55,000"
+  }
+]
