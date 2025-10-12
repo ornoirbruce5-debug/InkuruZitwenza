@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jeune Boutique - Digital Dropshipping Media</title>
+  <meta name="description" content="Supermarket ya digital: ibicuruzwa, chatbot, jokes, testimonials, na serivisi zacu." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0f1216; --bg-alt: #1a1f2a; --text: #f5f7fa; --muted: #a9b0be;
+      --primary: #ff4da6; --secondary: #4f8cff; --accent: #25d366;
+      --card: #222636; --table-header: #2a3141;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Poppins,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+    header{position:sticky;top:0;background:rgba(15,18,22,0.8);backdrop-filter:blur(8px);z-index:1000}
+    nav{display:flex;justify-content:space-between;align-items:center;padding:0.75rem 1rem}
+    nav a{color:var(--muted);text-decoration:none;margin:0 0.5rem}
+    nav a:hover{color:var(--primary)}
+    .btn{border:none;border-radius:10px;padding:0.6rem 1rem;cursor:pointer;font-weight:600}
+    .btn.primary{background:var(--primary);color:#fff}
+    .btn.secondary{background:var(--card);color:var(--text)}
+    .hero{position:relative;min-height:92vh;display:grid;place-items:center;text-align:center;background:url('fallback.jpg') center/cover no-repeat}
+    .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1}
+    .hero-content{max-width:760px;padding:1rem}
+    .hero h1{font-size:3rem;color:var(--primary)}
+    .section{padding:3rem 1rem}.section.alt{background:var(--bg-alt)}
+    .container{max-width:1100px;margin:0 auto}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:0.75rem;text-align:left}
+    th{background:var(--table-header)}
+    td img{width:64px;height:64px;object-fit:cover;border-radius:8px}
+    .chat-window{background:var(--card);border-radius:12px;min-height:240px;padding:1rem;display:grid;gap:0.5rem}
+    .chat-message{padding:0.5rem 0.75rem;border-radius:10px;max-width:80%}
+    .chat-message.user{background:#1f2532;justify-self:end}
+    .chat-message.bot{background:#2a3141;justify-self:start}
+    footer{background:#0c0f13;padding:2rem 1rem;margin-top:2rem}
+    .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav>
+      <a href="#hero">Jeune Boutique</a>
+      <div>
+        <a href="#stock">Ibicuruzwa</a>
+        <a href="#feedback">Testimonials</a>
+        <a href="#jokes">Jokes</a>
+        <a href="#chat">Chatbot</a>
+        <a href="#map">Aho turi</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section id="hero" class="hero">
+    <video autoplay muted loop playsinline poster="fallback.jpg">
+      <source src="background.mp4" type="video/mp4" />
+    </video>
+    <audio id="heroAudio" src="message-fr.mp3" preload="none"></audio>
+    <div class="hero-content">
+      <h1>Jeune Boutique</h1>
+      <p>Digital dropshipping media boutique – Ubwiza, Ubushya, Ubukobwa 💖</p>
+      <button id="playAudio" class="btn primary">Ubutumwa mu gifaransa 🔊</button>
+    </div>
+  </section>
+
+  <!-- Stock -->
+  <section id="stock" class="section">
+    <div class="container">
+      <h2>Ibicuruzwa</h2>
+      <table><tbody id="stockBody"></tbody></table>
+      <p id="cartInfo">Cart: 0 ibintu, 0 BIF</p>
+    </div>
+  </section>
+
+  <!-- Feedback -->
+  <section id="feedback" class="section alt">
+    <div class="container">
+      <h2>Testimonials</h2>
+      <p>⭐⭐⭐⭐⭐ “Serivisi nziza cane! Boutique y'abakobwa jeune 💕”</p>
+      <p>⭐⭐⭐⭐ “Design ya site iraryoshye kandi moderne ✨”</p>
+    </div>
+  </section>
+
+  <!-- Jokes -->
+  <section id="jokes" class="section">
+    <div class="container">
+      <h2>Joke y'umunsi</h2>
+      <p id="dailyJoke"></p>
+    </div>
+  </section>
+
+  <!-- Chatbot -->
+  <section id="chat" class="section alt">
+    <div class="container">
+      <h2>Chatbot 🤖</h2>
+      <div id="chatWindow" class="chat-window"></div>
+      <input id="chatInput" type="text" placeholder="Andika hano..." />
+      <button id="sendBtn" class="btn primary">Ohereza</button>
+    </div>
+  </section>
+
+  <!-- Map -->
+  <section id="map" class="section">
+    <div class="container">
+      <h2>Aho turi</h2>
+      <iframe src="https://www.google.com/maps?q=-3.4590,29.378&z=15&output=embed" width="100%" height="300"></iframe>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section alt">
+    <div class="container">
+      <h2>Twandikire</h2>
+      <form action="https://formsubmit.co/your-formsubmit-key" method="POST">
+        <input type="text" name="name" placeholder="Izina" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <textarea name="message" placeholder="Ubutumwa" required></textarea>
+        <button class="btn primary" type="submit">Ohereza</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <h3>Contacts</h3>
+        <p>📞 +25771633859</p>
+        <p>📧 ornoirbruce5@gmail.com</p>
+        <p>📍 Gihosha</p>
+      </div>
+      <div>
+        <h3>Social</h3>
+        <p><a href="https://wa.me/25771633859">WhatsApp</a> | Instagram | Facebook</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Hero audio
+    document.getElementById('playAudio').onclick=()=>document.getElementById('heroAudio').play();
+
+    // Products inline
+    const products=[
+      {id:"milk-1",name:"Amata ya Fresh",priceBIF:2500,inStock:true,image:"milk.jpg"},
+      {id:"phone-1",name:"Smartphone X",priceBIF:230000,inStock:true,image:"phone.jpg"},
+      {id:"cream-1",name:"Crème ya mukarange",priceBIF:8500,inStock:false,image:"cream.jpg"}
+    ];
+    const stockBody=document.getElementById('stockBody');const cart=[];
+    function renderProducts(){
+      stockBody.innerHTML='';
+      products.forEach(p=>{
+        stockBody.innerHTML+=\`
+          <tr>
+            <td><img src="\${p.image}" alt="\${p.name}"></td>
+            <td>\${p.name}</td>
+            <td>\${p.priceBIF} BIF</td>
+            <td>${p.inStock?'📦 Muri stock':'🚫 Vyashize'}</td>
+            <td><button onclick="addToCart('${p.id}')">Ongeraho 🧺</button></td>
+          </tr>`;
+      });
+    }
+    renderProducts();
+
+    function addToCart(id){
+      const item=products.find(p=>p.id===id);
+      if(!item) return;
+      if(!item.inStock){ botSay("Ico kintu cyashize mu bubiko 🚫"); return; }
+      cart.push(item);
+      updateCart();
+      botSay(`“${item.name}” yongewe mu cart 🧺`);
+    }
+    function updateCart(){
+      const total=cart.reduce((a,p)=>a+p.priceBIF,0);
+      document.getElementById('cartInfo').textContent=`Cart: ${cart.length} ibintu, ${total} BIF`;
+    }
+
+    // Daily Joke
+    const jokes=[
+      "Umwana ati: Mama, impuzu zanje zanyuze kuri internet? Mama: Zanyuze kuri layini! 😆",
+      "Umusaza asinziriye ku misa, pasitori ati: Amen! arikangura ati: Aha ni hehe? 😂",
+      "Umugore ati: Ndagura amata. Umugabo: Ni amafaranga yo kugura amata 🤭"
+    ];
+    const jokeEl=document.getElementById('dailyJoke');
+    function setJoke(){
+      const today=new Date().toISOString().slice(0,10);
+      const stored=JSON.parse(localStorage.getItem('joke')||'{}');
+      if(stored.date===today){ jokeEl.textContent=stored.text; return; }
+      const j=jokes[Math.floor(Math.random()*jokes.length)];
+      jokeEl.textContent=j;
+      localStorage.setItem('joke',JSON.stringify({date:today,text:j}));
+    }
+    setJoke();
+
+    // Chatbot simple flow
+    const chatWindow=document.getElementById('chatWindow');
+    const chatInput=document.getElementById('chatInput');
+    const sendBtn=document.getElementById('sendBtn');
+    function appendMsg(text,role){
+      const div=document.createElement('div');
+      div.className='chat-message '+role;
+      div.textContent=text;
+      chatWindow.appendChild(div);
+      chatWindow.scrollTop=chatWindow.scrollHeight;
+    }
+    function botSay(text){ appendMsg(text,'bot'); }
+    sendBtn.onclick=()=>{
+      const t=chatInput.value.trim(); if(!t) return;
+      appendMsg(t,'user'); chatInput.value='';
+      handleUser(t.toLowerCase());
+    }
+    function handleUser(t){
+      if(t.includes('muraho')){ botSay("Murakaza neza muri Jeune Boutique 🛍️!"); return; }
+      if(t.includes('amata')){ botSay("Dufise Amata ya Fresh 2500 BIF 📦"); return; }
+      if(t.includes('cart')){ updateCart(); botSay(document.getElementById('cartInfo').textContent); return; }
+      if(t.includes('gura')||t.includes('checkout')){
+        botSay("Twaguhuje na WhatsApp kugira urangize 🧾💬");
+        window.open("https://wa.me/25771633859?text=Ndarangije kugura","_blank");
+        return;
+      }
+      botSay("Ndiko kugerageza kugufasha 💡 andika izina ry'igicuruzwa cyangwa 'cart'.");
+    }
+  </script>
+</body>
+</html>
