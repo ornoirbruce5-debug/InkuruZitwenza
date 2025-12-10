@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buja Entertainment and Tech 😁</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <!-- Video background -->
+  <video autoplay muted loop playsinline id="bgVideo">
+    <source src="videos/background.mp4" type="video/mp4">
+    <!-- Fallback image -->
+    <img src="images/cover.jpg" alt="Fallback cover">
+  </video>
+
+  <!-- Overlay content -->
+  <div class="overlay">
+    <header>
+      <h1 class="handwriting">Buja Entertainment and Tech 😁</h1>
+      <p class="tagline">Number One Storyteller • Memer • Deep Thinker</p>
+    </header>
+
+    <main>
+      <section class="hero-text">
+        <h2>Inkuru zisekeje na memes z’umunsi 🎉</h2>
+        <p>Joyful, playful, and youth‑friendly storytelling hub.</p>
+        <div class="actions">
+          <button class="btn rainbow">Spin Joke 🎡</button>
+          <button class="btn ghost">Shakisha Inkuru 🔎</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© <span id="year"></span> Buja Entertainment and Tech — Built in Bujumbura 💜</p>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
