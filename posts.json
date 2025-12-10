@@ -1,23 +1,26 @@
 [
   {
-    "id": 1,
-    "message": "Inkuru yishimishije!",
-    "image": "assets/sample.jpg",
-    "category": "joy",
-    "created_time": "2025-12-10T08:00:00Z"
+    "id": "post_001",
+    "author": "Buja Entertainment and Tech",
+    "date": "2025-12-10T10:30:00Z",
+    "title": "Umukecuru n’umuganga 🤣",
+    "content": "Umukecuru yagiyye kwa muganga amwiganira ikibazo agira ati: Muga, jewe ndwaye mu nda... Muganga ati reka ndaguhe umuti w'amatwi kuko amazuru yo ndumva yakize 🤣",
+    "image": "images/sample1.jpg",
+    "tags": ["jokes", "health", "Kirundi"],
+    "category": "jokes",
+    "language": "Kirundi",
+    "permalink": "https://www.facebook.com/profile.php?id=61579062945564"
   },
   {
-    "id": 2,
-    "message": "Video ikomeye!",
-    "video": "assets/sample.mp4",
-    "category": "education",
-    "created_time": "2025-12-09T15:00:00Z"
-  },
-  {
-    "id": 3,
-    "message": "Inkuru y’ubucuruzi!",
-    "image": "assets/business.jpg",
-    "category": "business",
-    "created_time": "2025-12-08T10:00:00Z"
+    "id": "post_002",
+    "author": "Buja Entertainment and Tech",
+    "date": "2025-12-09T08:05:00Z",
+    "title": "Meme y’umunsi 😆",
+    "content": "Real Madrid fan vibes: turyosha umunsi n’udusekeje two mu Buja…",
+    "image": "images/sample2.jpg",
+    "tags": ["memes", "fan"],
+    "category": "memes",
+    "language": "Kirundi",
+    "permalink": "https://www.facebook.com/profile.php?id=61579062945564"
   }
 ]
