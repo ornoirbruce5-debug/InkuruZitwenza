@@ -1,23 +1,86 @@
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #7f5af0; /* Aurora purple */
-  display: flex;
-  justify-content: space-around;
-  padding: 0.8rem 0;
-  border-top: 2px solid #ff90e8;
+:root {
+  --primary:#8a6cff;
+  --secondary:#22c1c3;
+  --accent:#fb7edc;
+  --bg:#0f0f17;
+  --glass:rgba(255,255,255,0.08);
+  --radius:18px;
+  --shadow:0 10px 30px rgba(0,0,0,0.35);
 }
 
-.bottom-nav a {
-  color: white;
-  text-decoration: none;
-  font-size: 1.2rem;
-  flex: 1;
-  text-align: center;
+/* Reset */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Nunito', sans-serif; color:white; background:var(--bg); }
+
+/* Video background */
+#bgVideo {
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  z-index:-1;
+  background:linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
 }
 
-.bottom-nav a:hover {
-  color: #2cb67d; /* Aurora green accent */
+/* Overlay content */
+.overlay {
+  position:relative;
+  z-index:1;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  text-align:center;
+  padding:20px;
+  backdrop-filter:blur(4px);
+}
+
+/* Header */
+header h1 {
+  font-family:'Pacifico', cursive;
+  font-size:3rem;
+  margin-bottom:8px;
+}
+.tagline {
+  font-size:1rem;
+  color:#ddd;
+}
+
+/* Hero section */
+.hero-text {
+  margin-top:20vh;
+}
+.hero-text h2 {
+  font-size:2rem;
+  margin-bottom:12px;
+}
+.hero-text p {
+  font-size:1.2rem;
+  margin-bottom:20px;
+}
+
+/* Buttons */
+.btn {
+  border:none;
+  padding:12px 18px;
+  border-radius:999px;
+  font-weight:700;
+  cursor:pointer;
+  margin:6px;
+}
+.btn.rainbow {
+  background:linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+  color:white;
+}
+.btn.ghost {
+  background:transparent;
+  border:2px solid white;
+  color:white;
+}
+
+/* Footer */
+footer {
+  margin-top:40px;
+  font-size:.9rem;
+  color:#ccc;
 }
